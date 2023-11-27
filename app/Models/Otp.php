@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,6 +34,14 @@ class Otp extends Model
     public function scopeValid(Builder $query) : void
     {
         $query->where('valid', true);
+    }
+
+    public function scopeInvalid(Builder $query) : void
+    {
+        $now = Carbon::now();
+
+        $query->where('expire_at', '<', $now)
+            ->orWhere('valid', false);
     }
 
     public function user() : BelongsTo
