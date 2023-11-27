@@ -10,6 +10,13 @@ use Tests\TestCase;
 
 class UserOtpTest extends TestCase
 {
+    public function setUp() : void
+    {
+        parent::setUp();
+
+        Otp::unsetEventDispatcher();    //Disable OtpObserver
+    }
+
     /**
      * A basic test example.
      */
