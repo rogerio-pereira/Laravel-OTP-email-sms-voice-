@@ -111,4 +111,24 @@ class OtpObserverTest extends TestCase
             'expire_at' => '2023-11-26 13:15:30'
         ]);
     }
+
+    public function testObserverShouldAddOtpValue() : void
+    {
+        $this->assertDatabaseMissing('otps', [
+            'user_id' => $this->user->id,
+        ]);
+        $otp = Otp::create([
+                        'user_id' => $this->user->id
+                    ])
+                    ->toArray();
+        
+        $otpVal = $otp['otp'];
+        $this->assertNotNull($otpVal);
+        $this->assertGreaterThanOrEqual(100000, $otpVal);
+        $this->assertLessThanOrEqual(999999, $otpVal);
+        $this->assertDatabaseHas('otps', [
+            'user_id' => $this->user->id,
+            'otp' => $otpVal,
+        ]);
+    }
 }

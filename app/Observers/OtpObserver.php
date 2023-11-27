@@ -12,8 +12,10 @@ class OtpObserver
      */
     public function creating(Otp $otp): void
     {
-        $userId = $otp->user_id;
         $otp->expire_at = Carbon::now()->addMinutes(15);
+        $otp->otp = rand(100000, 999999);
+
+        $userId = $otp->user_id;
 
         Otp::where('user_id', $userId)
             ->update([
