@@ -20,9 +20,9 @@ class Otp extends Model
     ];
 
     protected $casts = [
-        'expire_at' => 'datetime:y-m-d H:i:s',
-        'created_at' => 'datetime:y-m-d H:i:s',
-        'updated_at' => 'datetime:y-m-d H:i:s',
+        'expire_at' => 'datetime:Y-m-d H:i:s',
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
     public function scopeLatest(Builder $query) : void
