@@ -20,9 +20,9 @@ class OtpFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'otp' => rand(100000, 999999),
-            'expire_at' => Carbon::now()->addMinutes(15),
-            'valid' => true,
+            'otp' => rand(100000, 999999),  //Handled by OtpObserver
+            'expire_at' => Carbon::now()->addMinutes(15),   //Handled by OtpObserver
+            'valid' => true,    //Handled by database (default value)
         ];
     }
 }
