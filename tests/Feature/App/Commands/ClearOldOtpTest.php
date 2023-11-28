@@ -29,7 +29,7 @@ class ClearOldOtpTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function testInvalidScope(): void
+    public function testClearOldOtp(): void
     {
         $now = '2023-11-26 17:00:00';
         Carbon::setTestNow($now);
