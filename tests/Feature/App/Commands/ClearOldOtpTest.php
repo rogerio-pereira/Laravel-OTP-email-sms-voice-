@@ -66,7 +66,8 @@ class ClearOldOtpTest extends TestCase
         $this->assertDatabaseHas('otps', $data2);
         $this->assertDatabaseHas('otps', $data3);
 
-        $this->travel(5)->minutes();
+        //Make sure it's already expired
+        $this->travel(1)->second();
 
         $this->artisan('otp:clear')->assertSuccessful();
         
