@@ -113,7 +113,7 @@ class UserOtpTest extends TestCase
     /**
      * A basic test example.
      */
-    public function testUserOtpScopeLatest(): void
+    public function testUserOtpScopeShouldReturnTheLastValidOtp(): void
     {
         $user = User::factory()
                     ->create()
