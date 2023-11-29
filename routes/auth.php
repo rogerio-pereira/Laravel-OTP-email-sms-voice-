@@ -38,6 +38,8 @@ Route::middleware('guest')->group(function () {
     //OTP
     Route::get('/otp', [OtpController::class, 'index'])
         ->name('otp');
+    Route::post('/otp', [OtpController::class, 'login'])
+        ->name('otp.login');
 });
 
 Route::middleware('auth')->group(function () {
