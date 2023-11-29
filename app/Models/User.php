@@ -52,4 +52,11 @@ class User extends Authenticatable
                     ->valid()
                     ->limit(1);
     }
+
+    public function generateNewOtp()
+    {
+        $otp = $this->otp()->create();
+        
+        return $otp;
+    }
 }
