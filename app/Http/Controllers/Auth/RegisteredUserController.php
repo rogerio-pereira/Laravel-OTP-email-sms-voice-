@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Services\OtpService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -46,6 +47,8 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        OtpService::generateOtp($user);
 
         //Redirect to OTP page
         $url = route('otp');
