@@ -12,6 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        //Every 5 Minutes
+        $schedule->command('otp:sanitize')->everyFiveMinutes();
+
+        //Every 15 minutes
         $schedule->command('otp:clear')->everyFifteenMinutes();
     }
 
