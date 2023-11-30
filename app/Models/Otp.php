@@ -44,6 +44,13 @@ class Otp extends Model
             ->orWhere('valid', false);
     }
 
+    public function scopeExpired(Builder $query) : void
+    {
+        $now = Carbon::now();
+
+        $query->where('expire_at', '<', $now);
+    }
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
