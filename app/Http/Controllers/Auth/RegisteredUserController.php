@@ -47,8 +47,11 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
+        //Redirect to OTP page
+        $url = route('otp');
+        return redirect($url)
+                    ->with([
+                        'email' => $request->email
+                    ]);
     }
 }
