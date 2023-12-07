@@ -24,7 +24,7 @@
 17. Click Next
 18. Fill the `Contact info` form
 19. Click Next
-20. Fill the `Message use case` form
+20. Fill the `Message use case` form  
     _**NOTE**_: On `Use case details` and `Opt-in workflow description` be as much specific as possible  
     _**NOTE2**_: You are required to send an otp-in workflow, use this image  
     ![Opt-in workflow](.github/Readme/verify_sms_otp_flow.jpg)
