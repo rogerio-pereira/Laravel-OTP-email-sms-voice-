@@ -4,10 +4,12 @@ namespace App\Notifications;
 
 use App\Mail\OtpMail;
 use App\Models\Otp;
+use App\Notifications\Channels\SmsChannel;
+use Aws\Result;
+use Aws\Sns\SnsClient;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class OtpNotification extends Notification
@@ -31,7 +33,10 @@ class OtpNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return [
+            'mail', 
+            SmsChannel::class,
+        ];
     }
 
     /**
@@ -45,6 +50,32 @@ class OtpNotification extends Notification
                         ->email;
         
         return $mail->to($address);
+    }
+
+    /**
+     * Get the sms representation of the notification.
+     */
+    public function toSms(object $notifiable): Result
+    {
+        $sns = new SnsClient([
+                'version' => 'latest',
+                'region' => config('services.sns.region'),
+                'credentials' => [
+                    'key' => config('services.sns.key'),
+                    'secret' => config('services.sns.secret'),
+                ],
+            ]);
+
+        $otp = $this->otp->otp;
+        $app = config('app.name');
+        $message = "Hello, new OTP (OneTimePassword) {$otp} for application {$app}";
+
+        $phoneNumber = $this->otp->user->phone;
+
+        return $sns->publish([
+                        'Message' => $message,
+                        'PhoneNumber' => $phoneNumber,
+                    ]);
     }
 
     /**
