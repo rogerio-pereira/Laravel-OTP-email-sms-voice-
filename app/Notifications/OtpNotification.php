@@ -54,6 +54,8 @@ class OtpNotification extends Notification
 
     /**
      * Get the sms representation of the notification.
+     * 
+     * @todo Need to test, waiting AWS to enable phone number
      */
     public function toSms(object $notifiable): Result
     {
