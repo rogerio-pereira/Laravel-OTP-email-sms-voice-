@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -45,6 +46,27 @@ class User extends Authenticatable
         'created_at' => 'datetime:y-m-d H:i:s',
         'updated_at' => 'datetime:y-m-d H:i:s',
     ];
+
+    /**
+     * Return phone number with country code and no special characters
+     *
+     * @return string
+     */
+    public function sanitizedPhoneNumber() : string
+    {
+        $phone =  $this->phone;
+
+        if($phone[0] != '+') {
+            $phone = '+1 '.$phone;
+        }
+        
+        $phone = Str::replace('(', '', $phone);
+        $phone = Str::replace(')', '', $phone);
+        $phone = Str::replace('-', '', $phone);
+        $phone = Str::replace(' ', '', $phone);
+
+        return $phone;
+    }
 
     public function otp() : HasOne
     {
