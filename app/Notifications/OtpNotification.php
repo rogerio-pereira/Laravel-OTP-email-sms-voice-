@@ -5,6 +5,8 @@ namespace App\Notifications;
 use App\Mail\OtpMail;
 use App\Models\Otp;
 use App\Notifications\Channels\SmsChannel;
+use App\Notifications\Channels\VoiceChannel;
+use Aws\Connect\ConnectClient;
 use Aws\Result;
 use Aws\Sns\SnsClient;
 use Illuminate\Bus\Queueable;
@@ -36,6 +38,7 @@ class OtpNotification extends Notification
         return [
             'mail', 
             SmsChannel::class,
+            VoiceChannel::class,
         ];
     }
 
@@ -76,6 +79,47 @@ class OtpNotification extends Notification
                         'Message' => $message,
                         'PhoneNumber' => $phoneNumber,
                     ]);
+    }
+
+    /**
+     * Get the voice representation of the notification.
+     */
+    public function toVoice(object $notifiable): Result
+    {
+        $otp = $this->otp->otp;
+        $otpArray = str_split($otp);
+        $otpNumbers = implode(' ', $otpArray);
+        $app = config('app.name');
+        $message = "<speak>
+                        Hello, new One Time Password for application {$app}. 
+                        Your new password is: <break />
+                        <prosody rate='50%'>
+                            {$otpNumbers}
+                        </prosody><break />
+                    </speak>";
+
+        $phoneNumber = $this->otp->user->sanitizedPhoneNumber();
+
+        $connect = new ConnectClient([
+            'version'  => 'latest',
+            'region' => config('services.connect.region'),
+            'credentials' => [
+                'key' => config('services.connect.key'),
+                'secret' => config('services.connect.secret'),
+            ],
+        ]);
+        
+        $result = $connect->startOutboundVoiceContact([
+            'DestinationPhoneNumber' => $phoneNumber,
+            'ContactFlowId'          => config('services.connect.contactFlowId'),
+            'InstanceId'             => config('services.connect.instanceId'),
+            'QueueId'                => config('services.connect.queueId'),
+            'Attributes' => [
+                'message' => $message,
+            ]
+        ]);
+
+        return $result;
     }
 
     /**

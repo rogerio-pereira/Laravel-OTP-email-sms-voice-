@@ -37,4 +37,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'connect' => [
+        'key'    => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'region' => env('AWS_DEFAULT_REGION'),
+        'contactFlowId' => env('AWS_CONNECT_CONTACT_FLOW_ID'),
+        'instanceId' => env('AWS_CONNECT_INSTANCE_ID'),
+        'queueId' => env('AWS_CONNECT_QUEUE_ID'),
+    ],
 ];
