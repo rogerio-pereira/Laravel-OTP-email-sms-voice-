@@ -72,7 +72,7 @@ class OtpNotification extends Notification
         $app = config('app.name');
         $message = "Hello, new OTP (OneTimePassword) {$otp} for application {$app}";
 
-        $phoneNumber = $this->otp->user->phone;
+        $phoneNumber = $this->otp->user->sanitizedPhoneNumber();
 
         return $sns->publish([
                         'Message' => $message,
