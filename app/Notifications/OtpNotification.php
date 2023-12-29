@@ -109,17 +109,15 @@ class OtpNotification extends Notification
             ],
         ]);
         
-        $result = $connect->startOutboundVoiceContact([
-            'DestinationPhoneNumber' => $phoneNumber,
-            'ContactFlowId'          => config('services.connect.contactFlowId'),
-            'InstanceId'             => config('services.connect.instanceId'),
-            'QueueId'                => config('services.connect.queueId'),
-            'Attributes' => [
-                'message' => $message,
-            ]
-        ]);
-
-        return $result;
+        return $connect->startOutboundVoiceContact([
+                        'DestinationPhoneNumber' => $phoneNumber,
+                        'ContactFlowId'          => config('services.connect.contactFlowId'),
+                        'InstanceId'             => config('services.connect.instanceId'),
+                        'QueueId'                => config('services.connect.queueId'),
+                        'Attributes' => [
+                            'message' => $message,
+                        ]
+                    ]);
     }
 
     /**
