@@ -47,8 +47,8 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
     MAIL_FROM_ADDRESS="hello@example.com" #Use an email validated in SES
     MAIL_FROM_NAME="${APP_NAME}"
 
-    AWS_ACCESS_KEY_ID=
-    AWS_SECRET_ACCESS_KEY=
+    AWS_ACCESS_KEY_ID=<AWS Access Key, step 18>
+    AWS_SECRET_ACCESS_KEY=<AWS Access Key, step 19>
     AWS_CONNECT_INSTANCE_ID=<AWS CONNECT, step 19>
     AWS_CONNECT_QUEUE_ID=<AWS CONNECT, step 19>
     AWS_CONNECT_CONTACT_FLOW_ID=<AWS CONNECT, step 52>
@@ -90,6 +90,39 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 ---
 
 # AWS Configuration
+## AWS Access Key and Secret Key
+1. Go to IAM Page
+2. On Left Menu > Access management > `Users`
+3. Click `Create User`
+    ![SES - Create Identity](.github/Readme/IAM-3.png)
+4. Add a `Username`
+5. Click Next 
+    ![SES - Create Identity](.github/Readme/IAM-5.png)
+6. Select `Attach policies directly`
+7. Add following permissions
+    - AmazonSESFullAccess
+    - AmazonSNSFullAccess
+    - AmazonConnect_FullAccess
+    - AmazonSQSFullAccess
+    - AmazonS3FullAccess
+8. Click Next
+9. Click Create users
+10. In the table click the user
+    ![SES - Create Identity](.github/Readme/IAM-10.png)
+11. Click `Security Credentials`
+12. Scroll down to Access Keys
+13. Click `Create Access Key`
+    ![SES - Create Identity](.github/Readme/IAM-13.png)
+14. Select the use case
+    _**NOTE**_: Select `Local code` or `Application running on an AWS compute service` depending on your use case
+15. Check option `I understand the above..`
+16. Click Next
+    ![SES - Create Identity](.github/Readme/IAM-16.png)
+17. Click Create Access Key
+18. Copy `Access Key`
+19. Copy `Secret access key`
+20. Click `Done`
+
 ## SES
 1. Go to AWS SES Page
 2. On Left Menu > Configuration > `Verified identities`
@@ -147,7 +180,6 @@ After everything is tested you need to request Production access (leave sandbox)
 8. Click `Submit Request`
     ![SES - Sandbox form](.github/Readme/SES-Sandbox-8.png)
 9. Wait for a response
-
 
 ## SNS (Origination Number)
 1. Go to AWS SNS Page
